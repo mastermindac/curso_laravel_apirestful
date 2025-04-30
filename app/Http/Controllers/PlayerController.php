@@ -12,9 +12,6 @@ class PlayerController extends Controller
     /**
      * Show all players from table players
      */
-    /**
-     * Show all players from table players
-     */
     public function index()
     {
         //devuelve todos los registros de la tabla players
@@ -87,4 +84,45 @@ class PlayerController extends Controller
 
     }
 
+    /**
+     * Update a player
+     */
+    public function update(int $id, Request $request)
+    {
+        $validated = $request->validate([
+            'first_name' => 'sometimes|max:128',
+            'last_name' => 'sometimes|max:256',
+            'gender' => 'sometimes|in:female,male,other',
+            'date_birth' => 'sometimes|date|before_or_equal:'. Carbon::now()->subYears(6),
+        ]);
+
+        // Buscar el player por su id
+        $player = Player::find($id);
+        if($player){
+            //Si la validación es correcta actualizamos cada campo si existe
+            if ($request->has('first_name')) {
+                $player->first_name = $validated['first_name'];
+            }
+            if ($request->has('last_name')) {
+                $player->last_name = $validated['last_name'];
+            }
+            if ($request->has('gender')) {
+                $player->gender = $validated['gender'];
+            }
+            if ($request->has('date_birth')) {
+                $player->date_birth = $validated['date_birth'];
+            }
+            //Salvamos el player
+            $player->save();
+            $data = ['message' => 'Updated player successfully', 'player' => $player];
+            return response()->json($data, 200);
+        }else{
+            $data = [
+                'msg' => "Player not found with id=$id",
+            ];
+            return response()->json($data, 404);
+        }
+
+    }
+    
 }

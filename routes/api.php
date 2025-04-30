@@ -32,6 +32,8 @@ Route::middleware([ApiForceAcceptHeader::class])->group(function () {
     Route::get('/players/{id}', [PlayerController::class, 'show']);
     //Endpoint insertar nuevo player
     Route::post('/players', [PlayerController::class, 'store']);
+    //Endpoint actualizar un nuevo player
+    Route::put('/players/{id}', [PlayerController::class, 'update']);
 });
 
 
