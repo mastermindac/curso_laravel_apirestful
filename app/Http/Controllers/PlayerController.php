@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Player;
 
+use Carbon\Carbon;
+
 class PlayerController extends Controller
 {
     /**
@@ -39,7 +41,7 @@ class PlayerController extends Controller
         }
 
     }
-        /**
+    /**
      * Get a player
      */
     public function showByFirstName(string $first_name)
@@ -57,4 +59,32 @@ class PlayerController extends Controller
         }
 
     }
+
+    
+    /**
+     * Store a player
+     */
+    public function store(Request $request){
+        $validated = $request->validate([
+            'first_name' => 'required|max:128',
+            'last_name' => 'required|max:256',
+            'gender' => 'required|in:female,male,other',
+            'date_birth' => 'required|date|before_or_equal:'. Carbon::now()->subYears(6),
+        ]);
+
+        //Insert a new player
+        $player = new Player;
+ 
+        $player->first_name = $validated['first_name'];
+        $player->last_name = $validated['last_name'];
+        $player->gender = $validated['gender'];
+        $player->date_birth = $validated['date_birth'];
+         
+        $player->save();
+        
+        $data = ['message' => 'Usuario creado successfully', 'player' => $player];
+        return response()->json($data, 201);
+
+    }
+
 }
