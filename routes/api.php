@@ -34,6 +34,8 @@ Route::middleware([ApiForceAcceptHeader::class])->group(function () {
     Route::post('/players', [PlayerController::class, 'store']);
     //Endpoint actualizar un nuevo player
     Route::put('/players/{id}', [PlayerController::class, 'update']);
+    //Endpoint delete player
+    Route::delete('/players/{id}', [PlayerController::class, 'destroy']);
 });
 
 

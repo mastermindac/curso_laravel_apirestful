@@ -116,6 +116,7 @@ class PlayerController extends Controller
             $player->save();
             $data = ['message' => 'Updated player successfully', 'player' => $player];
             return response()->json($data, 200);
+
         }else{
             $data = [
                 'msg' => "Player not found with id=$id",
@@ -124,5 +125,25 @@ class PlayerController extends Controller
         }
 
     }
-    
+    /**
+     * Delete a player
+     */
+    public function destroy(int $id)
+    {
+        // Buscar el player por su id
+        $player = Player::find($id);
+        if($player){
+            // Eliminar el player
+            $player->delete();
+            return response()->json([
+                'msg' => "Player with id=$id deleted",
+            ], 200);
+        }else{
+            $data = [
+                'msg' => "Player not found with id=$id",
+            ];
+            return response()->json($data, 404);
+        }
+    }   
+ 
 }
