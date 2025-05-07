@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\TeamController;
 
 use App\Http\Middleware\ApiForceAcceptHeader;
 
@@ -36,8 +37,14 @@ Route::middleware([ApiForceAcceptHeader::class])->group(function () {
     Route::put('/players/{id}', [PlayerController::class, 'update']);
     //Endpoint delete player
     Route::delete('/players/{id}', [PlayerController::class, 'destroy']);
+
+    //Endpoints teams
+    Route::get('/teams', [TeamController::class, 'index']);
+    Route::get('/teams/{id}', [TeamController::class, 'show']);
+    Route::post('/teams', [TeamController::class, 'store']);
+    Route::put('/teams/{id}', [TeamController::class, 'update']);
+    Route::delete('/teams/{id}', [TeamController::class, 'destroy']);
+
 });
 
 
-//Endpoint listado de teams
-Route::get('/teams', [PlayerController::class, 'index'])->middleware([ApiForceAcceptHeader::class]);
