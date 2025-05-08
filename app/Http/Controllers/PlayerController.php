@@ -38,6 +38,25 @@ class PlayerController extends Controller
         }
 
     }
+
+    /**
+     * Get a player medical record
+     */
+    public function show_medical_record($id)
+    {
+        // Buscar el player por su id
+        $player = Player::find($id);
+        if($player){
+            // Devolvemos el medical record
+            return response()->json($player->medical_record, 200);
+        }else{
+            $data = [
+                'msg' => "Player not found with id=$id",
+            ];
+            return response()->json($data, 404);
+        }
+
+    }
     /**
      * Get a player
      */
