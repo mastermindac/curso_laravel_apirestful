@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\MedicalRecordController;
+use App\Http\Controllers\GameController;
 
 use App\Http\Middleware\ApiForceAcceptHeader;
 
@@ -43,6 +44,7 @@ Route::middleware([ApiForceAcceptHeader::class])->group(function () {
     //Endpoints teams
     Route::get('/teams', [TeamController::class, 'index']);
     Route::get('/teams/{id}', [TeamController::class, 'show']);
+    Route::get('/teams/{id}/games', [TeamController::class, 'show_games']);
     Route::post('/teams', [TeamController::class, 'store']);
     Route::put('/teams/{id}', [TeamController::class, 'update']);
     Route::delete('/teams/{id}', [TeamController::class, 'destroy']);
@@ -51,6 +53,10 @@ Route::middleware([ApiForceAcceptHeader::class])->group(function () {
     Route::get('/medicalrecords', [MedicalRecordController::class, 'index']);
     Route::get('/medicalrecords/{id}', [MedicalRecordController::class, 'show']);
     Route::get('/medicalrecords/{id}/player', [MedicalRecordController::class, 'show_player']);
+
+    //Endpoints games
+    Route::get('/games', [GameController::class, 'index']);
+    Route::get('/games/{id}', [GameController::class, 'show']);
 
 });
 

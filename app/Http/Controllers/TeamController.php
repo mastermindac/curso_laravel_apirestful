@@ -34,10 +34,28 @@ class TeamController extends Controller
             ];
             return response()->json($data, 404);
         }
+        
+    }
+    
+    
+    /**
+     * Get team games
+     */
+    public function show_games($id)
+    {
+        // Buscar el player por su id
+        $team = Team::find($id);
+        if($team){
+            // Devolvemos los partidos jugados
+            return response()->json($team->games, 200);
+        }else{
+            $data = [
+                'msg' => "Team not found with id=$id",
+            ];
+            return response()->json($data, 404);
+        }
 
     }
-
-    
     /**
      * Store a team
      */

@@ -22,7 +22,7 @@ class PlayerFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name'=> fake()->firstName(),
+            'is_home'=> fake()->boolean,
             'last_name'=> fake()->lastName(),
             'gender'=> $this->gender[fake()->numberBetween(0, 2)],
             'date_birth'=> fake()->dateTimeBetween('-50 years','-6 years')->format('Y-m-d')
