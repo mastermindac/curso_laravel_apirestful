@@ -58,6 +58,11 @@ Route::middleware([ApiForceAcceptHeader::class])->group(function () {
     Route::get('/games', [GameController::class, 'index']);
     Route::get('/games/{id}', [GameController::class, 'show']);
 
+    //Enpoints Teams with games
+    Route::get('/teamswithgames/{id?}', [TeamController::class, 'show_teams_withgames']);
+    Route::get('/teams/{id}/lastgame', [TeamController::class, 'show_last_game']);
+    Route::get('/teams/{id}/bestgame', [TeamController::class, 'show_best_game']);
+
 });
 
 

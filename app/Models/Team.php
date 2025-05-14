@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Team extends Model
 {
@@ -17,4 +18,21 @@ class Team extends Model
    {
        return $this->hasMany(Game::class);
    }
+
+    /**
+     * Get the most recent game added
+     */
+    public function latestGame(): HasOne
+    {
+        return $this->hasOne(Game::class)->latestOfMany();
+    }
+
+    /**
+     * Get the max anotation game
+     */
+    public function bestGame(): HasOne
+    {
+        return $this->games()->one()->ofMany('pts_team', 'max');
+    }
+
 }

@@ -137,4 +137,62 @@ class TeamController extends Controller
             return response()->json($data, 404);
         }
     }   
+
+
+    /**
+     * Show all teams with games
+     */
+    public function show_teams_withgames(?int $id = null)
+    {
+        if($id == null){
+            //devolvemos todos los equipos incluyendo los partidos
+            $teams = Team::with('games')->get();
+        }else{
+            //devolvemos el equipo incluyendo sus partidos
+            $teams = Team::with('games')->find($id);
+        }
+        return response()->json($teams, 200); // Devuelve JSON con código 200 OK
+    }
+
+    /**
+     * Get last game team
+     */
+    public function show_last_game($id)
+    {
+        // Buscar el player por su id
+        $game = Team::find($id)->latestGame;
+        if($game){
+            // Puedes retornar una vista o una respuesta JSON, según necesites
+            return response()->json($game, 200);
+        }else{
+            $data = [
+                'msg' => "Team not found with id=$id",
+            ];
+            return response()->json($data, 404);
+        }
+
+    }
+
+    /**
+     * Get best game team
+     */
+    public function show_best_game($id)
+    {
+
+        // Buscar el player por su id
+        $team = Team::find($id);
+        if($team){
+            $game = Team::find($id)->bestGame;
+            // Puedes retornar una vista o una respuesta JSON, según necesites
+            return response()->json($game, 200);
+        }else{
+            $data = [
+                'msg' => "Team not found with id=$id",
+            ];
+            return response()->json($data, 404);
+        }
+
+    }
+
+
 }
