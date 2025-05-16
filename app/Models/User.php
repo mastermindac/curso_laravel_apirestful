@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -44,5 +48,27 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    /**
+     * Get the player associated with the user.
+     */
+    public function player(): HasOne
+    {
+        return $this->hasOne(Player::class);
+    }
+    /**
+     * Get the medical record associated with the player.
+     */
+    public function medical_record(): HasOneThrough
+    {
+        return $this->hasOneThrough(MedicalRecord::class, Player::class);
+    }
+
+    /**
+     * Get tteams associated with the player.
+     */
+    public function teams(): HasManyThrough
+    {
+        return $this->hasManyThrough(Team::class, Player::class);
     }
 }

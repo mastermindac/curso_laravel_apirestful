@@ -22,10 +22,11 @@ class PlayerFactory extends Factory
     public function definition(): array
     {
         return [
-            'is_home'=> fake()->boolean,
+            'first_name'=> fake()->name(),
             'last_name'=> fake()->lastName(),
             'gender'=> $this->gender[fake()->numberBetween(0, 2)],
-            'date_birth'=> fake()->dateTimeBetween('-50 years','-6 years')->format('Y-m-d')
+            'date_birth'=> fake()->dateTimeBetween('-50 years','-6 years')->format('Y-m-d'),
+            'user_id'=>1
         ];
     }
 }

@@ -57,6 +57,25 @@ class PlayerController extends Controller
         }
 
     }
+
+    /**
+     * Get teams player
+     */
+    public function show_teams(int $id)
+    {
+        // Buscar el player por su id
+        $player = Player::find($id);
+        if($player){
+            // Puedes retornar una vista o una respuesta JSON, según necesites
+            return response()->json($player->teams, 200);
+        }else{
+            $data = [
+                'msg' => "Player not found with id=$id",
+            ];
+            return response()->json($data, 404);
+        }
+        
+    }
     /**
      * Get a player
      */

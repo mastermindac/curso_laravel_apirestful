@@ -28,7 +28,7 @@ class MedicalRecordFactory extends Factory
             'allergies'=> fake()->sentence(6),
             'injuries'=> fake()->sentence(12),
             'blood_type'=> $this->blood_type[fake()->numberBetween(0, 3)],
-            'player_id'=> $players[fake()->numberBetween(0, count($players)-1)]->id,
+            'player_id' => 1
         ];
     }
 }

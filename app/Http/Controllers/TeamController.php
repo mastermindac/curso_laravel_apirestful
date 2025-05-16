@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Team;
+use App\Models\User;
 
 class TeamController extends Controller
 {
@@ -38,6 +39,24 @@ class TeamController extends Controller
     }
     
     
+    /**
+     * Get team players
+     */
+    public function show_players(int $id)
+    {
+        // Buscar el player por su id
+        $team = Team::find($id);
+        if($team){
+            // Puedes retornar una vista o una respuesta JSON, según necesites
+            return response()->json($team->players, 200);
+        }else{
+            $data = [
+                'msg' => "Team not found with id=$id",
+            ];
+            return response()->json($data, 404);
+        }
+        
+    }
     /**
      * Get team games
      */

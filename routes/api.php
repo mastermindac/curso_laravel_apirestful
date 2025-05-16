@@ -26,6 +26,10 @@ Route::post('/players', [PlayerController::class, 'store'])->middleware([ApiForc
 */
 
 Route::middleware([ApiForceAcceptHeader::class])->group(function () {
+
+    //User medical record
+    Route::get('/users/{id}/medicalrecord', [MedicalRecordController::class, 'show_user_medical_record']);
+
     //Endpoint listado de players
     Route::get('/players', [PlayerController::class, 'index']);
     //Endpoint busqueda de player con id
@@ -40,14 +44,17 @@ Route::middleware([ApiForceAcceptHeader::class])->group(function () {
     Route::put('/players/{id}', [PlayerController::class, 'update']);
     //Endpoint delete player
     Route::delete('/players/{id}', [PlayerController::class, 'destroy']);
+    //Endpoint teams player
+    Route::get('/players/{id}/teams', [PlayerController::class, 'show_teams']);
 
-    //Endpoints teams
+    //Endpoints teamsc
     Route::get('/teams', [TeamController::class, 'index']);
     Route::get('/teams/{id}', [TeamController::class, 'show']);
     Route::get('/teams/{id}/games', [TeamController::class, 'show_games']);
     Route::post('/teams', [TeamController::class, 'store']);
     Route::put('/teams/{id}', [TeamController::class, 'update']);
     Route::delete('/teams/{id}', [TeamController::class, 'destroy']);
+    Route::get('/teams/{id}/players', [TeamController::class, 'show_players']);
 
     //Endpoints medicalrecorts
     Route::get('/medicalrecords', [MedicalRecordController::class, 'index']);

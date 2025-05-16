@@ -1,4 +1,4 @@
- <?php
+<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('players', function (Blueprint $table) {
-            $table->id();
-            $table->string('first_name',128);
-            $table->string('last_name',256);
-            $table->enum('gender',['female','male','other']);
-            $table->date('date_birth');
-            $table->foreignId('user_id')->constrained();
+        Schema::create('team_player', function (Blueprint $table) {
+            $table->id();     
+            //$table->unsignedBigInteger('team_id');
+            //$table->foreign('team_id')->references('id')->on('teams');  
+            $table->foreignId('team_id')->constrained();
+            $table->foreignId('player_id')->constrained();
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('players');
+        Schema::dropIfExists('team_player');
     }
 };
