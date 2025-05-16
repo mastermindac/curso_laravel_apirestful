@@ -26,7 +26,7 @@ class PlayerController extends Controller
     public function show(int $id)
     {
         // Buscar el player por su id
-        $player = Player::find($id);
+        $player =  Player::with('image')->find($id);
         if($player){
             // Puedes retornar una vista o una respuesta JSON, según necesites
             return response()->json($player, 200);

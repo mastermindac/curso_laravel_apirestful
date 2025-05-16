@@ -45,7 +45,8 @@ class TeamController extends Controller
     public function show_players(int $id)
     {
         // Buscar el player por su id
-        $team = Team::find($id);
+        $team = Team::with('image')->find($id);
+        // Buscar el player por su id
         if($team){
             // Puedes retornar una vista o una respuesta JSON, según necesites
             return response()->json($team->players, 200);

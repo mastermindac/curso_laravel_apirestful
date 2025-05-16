@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Team extends Model
 {
@@ -42,6 +43,14 @@ class Team extends Model
     public function players(): BelongsToMany
     {
         return $this->belongsToMany(Player::class,'team_player');
+    }
+
+    /**
+     * Get the team's image.
+     */
+    public function image(): MorphOne
+    {
+        return $this->morphOne(Image::class, 'imageable');
     }
 
 }
