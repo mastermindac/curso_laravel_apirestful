@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
+use DateTimeInterface;
 class Player extends Model
 {
     use HasFactory;
@@ -38,5 +39,17 @@ class Player extends Model
     public function image(): MorphOne
     {
         return $this->morphOne(Image::class, 'imageable');
+    }
+    
+    protected function serializeDate(DateTimeInterface $date): string
+    {
+        return $date->format('Y-m-d');
+    }
+
+    protected function casts(): array
+    {
+            return [
+                'date_birth' => 'date:d-m-Y',
+            ];
     }
 }

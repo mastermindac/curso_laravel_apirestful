@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Image extends Model
 {
-
     use HasFactory;
+    //protected $hidden = ['imageable_type','imageable_id'];
+    protected $visible = ['id', 'url'];
     
     // 
     /**
