@@ -210,6 +210,10 @@ class PlayerController extends Controller
         // Buscar el player por su id
         $player = Player::find($id);
         if($player){
+            // Elimina el medical record asociado
+            $player->medical_record()->delete();
+            //Desvincular todos los teams de la tabla intermedia
+            $player->teams()->detach();
             // Eliminar el player
             $player->delete();
             return response()->json([
