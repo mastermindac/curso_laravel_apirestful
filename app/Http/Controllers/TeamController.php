@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Team;
 use App\Models\User;
+use App\Models\Player;
 
 class TeamController extends Controller
 {
@@ -205,6 +206,37 @@ class TeamController extends Controller
             $game = Team::find($id)->bestGame;
             // Puedes retornar una vista o una respuesta JSON, según necesites
             return response()->json($game, 200);
+        }else{
+            $data = [
+                'msg' => "Team not found with id=$id",
+            ];
+            return response()->json($data, 404);
+        }
+
+    }
+
+    
+    /**
+     * Store a player in a team
+    */
+    public function store_player($id,$id_player)
+    {
+        // Buscar el player por su id
+        $team = Team::find($id);
+        if($team){
+            // Insertamos el player
+            $player = Player::find($id_player);
+            if($player){
+                //$team->players()->atach($player);
+                $team->players()->syncWithoutDetaching($id_player);
+                $teamPlayers = Team::with('players')->find($id);
+                return response()->json($teamPlayers, 200);
+            }else{
+                $data = [
+                    'msg' => "Player not found with id=$id_player",
+                ];
+                return response()->json($data, 404);
+            }
         }else{
             $data = [
                 'msg' => "Team not found with id=$id",

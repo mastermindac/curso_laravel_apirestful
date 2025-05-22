@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Player;
+use App\Models\MedicalRecord;
 
 use Carbon\Carbon;
 
@@ -120,6 +121,44 @@ class PlayerController extends Controller
         $data = ['message' => 'Usuario creado successfully', 'player' => $player];
         return response()->json($data, 201);
 
+    }
+
+    /**
+     * Store a player medical record
+     */
+    public function store_medicalrecords($id, Request $request){
+        $validated = $request->validate([
+            'medical_public_id' => 'required|max:128',
+            'allergies' => 'required|max:256',
+            'blood_type' => 'required|in:A,B,AB,O',
+            'injuries' => 'required|max:512',
+        ]);
+
+
+        // Buscar el player por su id
+        $player = Player::find($id);
+        if($player){
+            // Buscar el MedicalRecord por el player id
+            $medicalrecordFind = $player->medical_record;
+            if($medicalrecordFind){
+                $data = [
+                    'msg' => "Player's medical record exist",
+                ];
+                return response()->json($data, 200);
+            }
+            $medicalrecord = new MedicalRecord();
+            $medicalrecord->fill($validated);
+            // Insertamos el medical record para ese player
+            $player->medical_record()->save($medicalrecord);
+            $player->refresh();
+            // Devolvemos el medical record
+            return response()->json($player->medical_record, 201);
+        }else{
+            $data = [
+                'msg' => "Player not found with id=$id",
+            ];
+            return response()->json($data, 404);
+        }
     }
 
     /**

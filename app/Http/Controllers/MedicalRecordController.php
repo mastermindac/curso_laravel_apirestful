@@ -76,4 +76,25 @@ class MedicalRecordController extends Controller
         }
 
     }
+
+    /**
+     * Delete a medicalrecord
+     */
+    public function destroy(int $id)
+    {
+        // Buscar el player por su id
+        $medicalrecord = MedicalRecord::find($id);
+        if($medicalrecord){
+            // Eliminar el player
+            $medicalrecord->delete();
+            return response()->json([
+                'msg' => "MedicalRecord with id=$id deleted",
+            ], 200);
+        }else{
+            $data = [
+                'msg' => "MedicalRecord not found with id=$id",
+            ];
+            return response()->json($data, 404);
+        }
+    }  
 }

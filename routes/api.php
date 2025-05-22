@@ -47,7 +47,10 @@ Route::middleware([ApiForceAcceptHeader::class])->group(function () {
     //Endpoint teams player
     Route::get('/players/{id}/teams', [PlayerController::class, 'show_teams']);
 
-    //Endpoints teamsc
+    //Endpoint create player medical record
+    Route::post('/players/{id}/medicalrecords', [PlayerController::class, 'store_medicalrecords']);
+
+    //Endpoints teams
     Route::get('/teams', [TeamController::class, 'index']);
     Route::get('/teams/{id}', [TeamController::class, 'show']);
     Route::get('/teams/{id}/games', [TeamController::class, 'show_games']);
@@ -56,10 +59,13 @@ Route::middleware([ApiForceAcceptHeader::class])->group(function () {
     Route::delete('/teams/{id}', [TeamController::class, 'destroy']);
     Route::get('/teams/{id}/players', [TeamController::class, 'show_players']);
 
+    Route::post('/teams/{id}/players/{id_player}', [TeamController::class, 'store_player']);
+
     //Endpoints medicalrecorts
     Route::get('/medicalrecords', [MedicalRecordController::class, 'index']);
     Route::get('/medicalrecords/{id}', [MedicalRecordController::class, 'show']);
     Route::get('/medicalrecords/{id}/player', [MedicalRecordController::class, 'show_player']);
+    Route::delete('/medicalrecords/{id}', [MedicalRecordController::class, 'destroy']);
 
     //Endpoints games
     Route::get('/games', [GameController::class, 'index']);
