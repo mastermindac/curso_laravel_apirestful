@@ -10,6 +10,15 @@ class Game extends Model
 {
     use HasFactory;
 
+     protected $fillable = [
+        'is_home',
+        'pts_team',
+        'pts_op_team',
+        'date_play',
+        'name_op_team',
+        'team_id'
+    ];
+
     /**
      * Get team for the game
      */

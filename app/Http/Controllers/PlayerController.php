@@ -163,8 +163,10 @@ class PlayerController extends Controller
 
     /**
      * Update a player
+     * 
+     * @param  int  $id  the Player id
      */
-    public function update(int $id, Request $request)
+    public function update($id, Request $request)
     {
         $validated = $request->validate([
             'first_name' => 'sometimes|max:128',

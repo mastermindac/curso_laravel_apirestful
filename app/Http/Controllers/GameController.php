@@ -20,7 +20,7 @@ class GameController extends Controller
     }
 
     /**
-     * Get a team
+     * Get a game
      */
     public function show(int $id)
     {
@@ -38,7 +38,27 @@ class GameController extends Controller
 
     }
 
+    /**
+     * Store a game
+     */
+    public function store(Request $request){
+        $validated = $request->validate([
+            'is_home' => 'required',
+            'pts_team' => 'required|gte:0',
+            'pts_op_team' => 'required|gte:0',
+            'name_op_team' => 'required|max:128',
+            'date_play' => 'required',
+            'team_id' => 'required'
+        ]);
 
+        //Insert a new game
+        $game = new Game;
+        $game->fill($validated);
+        $game->save();
+
+        $data = ['message' => 'Game created successfully', 'game' => $game];
+        return response()->json($data, 201);
+    }
 
 
 }
