@@ -26,7 +26,7 @@ Route::get('/players/{id}', [PlayerController::class, 'show'])->middleware([ApiF
 Route::post('/players', [PlayerController::class, 'store'])->middleware([ApiForceAcceptHeader::class]);
 */
 
-Route::middleware([ApiForceAcceptHeader::class])->group(function () {
+Route::middleware([ApiForceAcceptHeader::class,'auth:api'])->group(function () {
 
     //User medical record
     Route::get('/users/{id}/medicalrecord', [MedicalRecordController::class, 'show_user_medical_record']);
