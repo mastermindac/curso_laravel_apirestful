@@ -6,6 +6,7 @@ use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\StatController;
 
 use App\Http\Middleware\ApiForceAcceptHeader;
 
@@ -49,6 +50,9 @@ Route::middleware([ApiForceAcceptHeader::class])->group(function () {
 
     //Endpoint create player medical record
     Route::post('/players/{id}/medicalrecords', [PlayerController::class, 'store_medicalrecords']);
+    //Endpoint create player stat
+    Route::post('/players/{id}/stats', [PlayerController::class, 'store_stat']);
+    Route::put('/players/{id}/stats', [PlayerController::class, 'update_stat']);
 
     //Endpoints teams
     Route::get('/teams', [TeamController::class, 'index']);
@@ -77,6 +81,9 @@ Route::middleware([ApiForceAcceptHeader::class])->group(function () {
     Route::get('/teams/{id}/lastgame', [TeamController::class, 'show_last_game']);
     Route::get('/teams/{id}/bestgame', [TeamController::class, 'show_best_game']);
 
+    //Endpoints stats
+    Route::get('/stats', [StatController::class, 'index']);
+    Route::get('/stats/{id}', [StatController::class, 'show']);
 });
 
 

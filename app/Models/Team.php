@@ -46,6 +46,14 @@ class Team extends Model
     }
 
     /**
+     * The teams that belong to the coacher.
+     */
+    public function coachers(): BelongsToMany
+    {
+        return $this->belongsToMany(Coacher::class,'team_coacher');
+    }
+
+    /**
      * Get the team's image.
      */
     public function image(): MorphOne

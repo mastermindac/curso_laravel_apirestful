@@ -10,19 +10,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 use DateTimeInterface;
-class Player extends Model
+class Coacher extends Model
 {
     use HasFactory;
 
-    public function medical_record(): HasOne
-    {
-        return $this->hasOne(MedicalRecord::class);
-    }
-
-    public function stat(): HasOne
-    {
-        return $this->hasOne(Stat::class);
-    }
 
     public function user(): BelongsTo
     {
@@ -35,11 +26,11 @@ class Player extends Model
     public function teams():BelongsToMany
 
     {
-        return $this->belongsToMany(Team::class,'team_player');
+        return $this->belongsToMany(Team::class,'team_coacher');
     }
 
     /**
-     * Get the player's image.
+     * Get the coacher's image.
      */
     public function image(): MorphOne
     {

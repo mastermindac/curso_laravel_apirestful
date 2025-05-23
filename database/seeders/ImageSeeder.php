@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Image;
 use App\Models\Player;
+use App\Models\Coacher;
 use App\Models\Team;
 
 class ImageSeeder extends Seeder
@@ -18,6 +19,13 @@ class ImageSeeder extends Seeder
         // Asignar imágenes a Players
         Player::all()->each(function ($player) {
             $player->image()->create(
+                Image::factory()->make()->toArray()
+            );
+        });
+
+        // Asignar imágenes a Coachers
+        Coacher::all()->each(function ($coacher) {
+            $coacher->image()->create(
                 Image::factory()->make()->toArray()
             );
         });

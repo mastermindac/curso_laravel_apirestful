@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Player;
 use App\Models\MedicalRecord;
+use App\Models\Stat;
 
 use Carbon\Carbon;
 
@@ -160,6 +161,84 @@ class PlayerController extends Controller
             return response()->json($data, 404);
         }
     }
+
+    /**
+     * Store a player stat
+     */
+    public function store_stat($id, Request $request){
+        $validated = $request->validate([
+            'pts' => 'required',
+            'pts_three' => 'required',
+            'pts_two' => 'required',
+            'pts_one' => 'required',
+            'min' => 'required'
+        ]);
+
+
+        // Buscar el player por su id
+        $player = Player::find($id);
+        if($player){
+            // Buscar el Stat por el player id
+            $stat = $player->stat;
+            if($stat){
+                $data = [
+                    'msg' => "Player's stat exist",
+                ];
+                return response()->json($data, 200);
+            }
+            $stat = new Stat();
+            $stat->fill($validated);
+            // Insertamos el stat para ese player
+            $player->stat()->save($stat);
+            $player->refresh();
+            // Devolvemos el stat
+            return response()->json($player->stat, 201);
+        }else{
+            $data = [
+                'msg' => "Player not found with id=$id",
+            ];
+            return response()->json($data, 404);
+        }
+    }
+
+    /**
+     * Update a player stat
+     */
+    public function update_stat($id, Request $request){
+        $validated = $request->validate([
+            'pts' => 'sometimes',
+            'pts_three' => 'sometimes',
+            'pts_two' => 'sometimes',
+            'pts_one' => 'sometimes',
+            'min' => 'sometimes'
+        ]);
+
+
+        // Buscar el player por su id
+        $player = Player::find($id);
+        if($player){
+            // Buscar el Stat por el player id
+            $stat = $player->stat;
+            if(!$stat){
+                $data = [
+                    'msg' => "Player's stat doesnt exist",
+                ];
+                return response()->json($data, 404);
+            }
+            $stat->fill($validated);
+            // Insertamos el stat para ese player
+            $stat->save($stat);
+            $stat->refresh();
+            // Devolvemos el stat
+            return response()->json($stat, 201);
+        }else{
+            $data = [
+                'msg' => "Player not found with id=$id",
+            ];
+            return response()->json($data, 404);
+        }
+    }
+
 
     /**
      * Update a player

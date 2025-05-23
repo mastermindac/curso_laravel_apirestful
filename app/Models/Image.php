@@ -15,7 +15,7 @@ class Image extends Model
     
     // 
     /**
-     * Get the parent imageable model (player or team).
+     * Get the parent imageable model (player, coacher or team).
      */
     public function imageable(): MorphTo
     {
