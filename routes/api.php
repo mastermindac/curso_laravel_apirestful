@@ -7,6 +7,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\StatController;
+use App\Http\Controllers\AuthController;
 
 use App\Http\Middleware\ApiForceAcceptHeader;
 
@@ -25,6 +26,10 @@ Route::get('/players/{id}', [PlayerController::class, 'show'])->middleware([ApiF
 //Endpoint insertar nuevo player
 Route::post('/players', [PlayerController::class, 'store'])->middleware([ApiForceAcceptHeader::class]);
 */
+
+Route::middleware([ApiForceAcceptHeader::class])->group(function () {
+    Route::post('/register', [AuthController::class, 'register']);
+});
 
 Route::middleware([ApiForceAcceptHeader::class,'auth:api'])->group(function () {
 
