@@ -29,6 +29,7 @@ Route::post('/players', [PlayerController::class, 'store'])->middleware([ApiForc
 
 Route::middleware([ApiForceAcceptHeader::class])->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
 });
 
 Route::middleware([ApiForceAcceptHeader::class,'auth:api'])->group(function () {
