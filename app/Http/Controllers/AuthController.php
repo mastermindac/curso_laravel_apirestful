@@ -31,10 +31,12 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 'player',
         ]);
 
         // Crear token personal con Passport
-        $token = $user->createToken('BasketClub Client')->accessToken;
+        //$token = $user->createToken('BasketClub Client')->accessToken;
+        $token = $user->createToken('BasketClub Client', ['user:read'])->accessToken;
 
         // Responder con el token
         return response()->json([
@@ -67,7 +69,11 @@ class AuthController extends Controller
         $user = Auth::user();
 
         // Crear token personal con Passport
-        $token = $user->createToken('BasketClub Client')->accessToken;
+        if($user->role=='admin')
+            $token = $user->createToken('BasketClub Client', ['user:all'])->accessToken;
+        else
+            $token = $user->createToken('BasketClub Client', ['user:read'])->accessToken;
+        //$token = $user->createToken('BasketClub Client')->accessToken;
 
         // Retornar respuesta con token
         return response()->json([
